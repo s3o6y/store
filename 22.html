@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبه مسك المربعات</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .game-container {
+            margin: 20px auto;
+            width: 80%;
+            background: rgba(20, 156, 235, 0.8);
+            border-radius: 50px;
+            padding: 150px;
+        }
+سكربت خلفيه
+        
+        h1 {
+            color: #0eacc5;
+        }
+
+        canvas {
+            display: block;
+            margin: 20 auto;
+            border: 2px solid #03abd1;
+            background-color: #3e2a41;
+        }
+
+        #score {
+            font-size: 20px;
+            color: #1a1111;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>لعبة الامساك بالمربعات</h1>   
+        <canvas id="gameCanvas"></canvas> 
+        <p id="score">النقاط: 0</p>
+    </div>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 400;
+        canvas.height = 500;
+
+        let score = 0;
+        const player = {
+            x: 157,
+            y: 450,
+            width: 50,
+            height: 9,
+            color: 'black',
+            moveSpeed: 50,
+        };
+   
+        const objects = [];
+        const objectSpeed = 3;
+        const objectInterval = 900;
+
+        function drawPlayer() {
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function createObject() {
+            const x = Math.random() * (canvas.width - 20);
+            objects.push({ x, y: 0, width: 20, height: 20, color: 'red' });
+        }
+
+        function drawObjects() {
+            objects.forEach((obj, index) => {
+                ctx.fillStyle = obj.color;
+                ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+                obj.y += objectSpeed;
+
+                // Check for collision
+                if (
+                    obj.x < player.x + player.width &&
+                    obj.x + obj.width > player.x &&
+                    obj.y + obj.height > player.y
+                ) {
+                    score++;
+                    objects.splice(index, 1);
+                }
+
+                // Remove objects that fall below the screen
+                if (obj.y > canvas.height) {
+                    objects.splice(index, 1);
+                }
+            });
+        }
+
+        function drawScore() {
+            document.getElementById('score').textContent = `النقاط: ${score}`;
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            drawObjects();
+            drawScore();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && player.x < canvas.width - player.width) {
+                player.x += player.moveSpeed;
+            }
+            if (e.key === 'ArrowLeft' && player.x > 0) {
+                player.x -= player.moveSpeed;
+            }
+        });
+
+        setInterval(createObject, objectInterval);
+        gameLoop();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="scoreboard">
+    <h2>قائمة أعلى النقاط</h2>
+    <ul id="score-list">
+        <!-- سيتم تعبئة هذه القائمة بالنقاط -->
+    </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+<style>
+    .scoreboard {
+        margin-top: 12px;
+        padding: 15px;
+        background-color: #0ab6dc;
+        border-radius: 300px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+الانحناء
+    .scoreboard h2 {
+        margin-bottom: 5px;
+        font-size: 20px;
+        color: #333;
+    }
+
+    #score-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    #score-list li {
+        font-size: 18px;
+        padding: 20px;
+        border-bottom: 1px solid #086aba;
+    }
+
+    #score-list li:last-child {
+        border-bottom: none;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة الإمساك بالمربعات</title>
+</head>
+<body>
+    <!-- عنصر لعرض الوقت -->
+    <div id="timer" style="font-size: 20px; margin-top: 10px;">الوقت: 0</div>
+
+    <!-- كتابة JavaScript مباشرة -->
+    <script>
+        // بدء الوقت من 0
+        let timeElapsed = 0;
+
+        // اختر مكان عرض الوقت
+        const timerElement = document.getElementById("timer");
+
+        // قم بتحديث العداد كل ثانية
+        const timerInterval = setInterval(() => {
+            // زد الوقت بمقدار ثانية
+            timeElapsed++;
+
+            // حدث النص داخل العنصر
+            timerElement.textContent = `الوقت: ${timeElapsed}`;
+        }, 1000);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    // مثال: مصفوفة لتخزين أسماء اللاعبين ونقاطهم
+    let scores = [
+        { name: "Player1", score: 1000},
+        { name: "Player2", score: 500 },
+        { name: "Player3", score: 300 }
+    ];
+
+    // تحديث قائمة النقاط
+    function updateScoreboard() {
+        const scoreList = document.getElementById("score-list");
+        scoreList.innerHTML = ""; // امسح القائمة القديمة
+
+        // ترتيب اللاعبين بناءً على النقاط
+        scores.sort((a, b) => b.score - a.score);
+
+        // إضافة اللاعبين للقائمة
+        scores.forEach(player => {
+            const li = document.createElement("li");
+            li.textContent = `${player.name}: ${player.score} نقطة`;
+            scoreList.appendChild(li);
+        });
+    }
+
+    // إضافة لاعب جديد مع نقاطه
+    function addPlayerScore(name, score) {
+        scores.push({ name, score });
+        updateScoreboard();
+    }
+
+    // تحديث القائمة عند تحميل الصفحة
+    updateScoreboard();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل أسماء اللاعبين</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #00dbfc, #13dab2);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 1.2em;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background: #086aba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #086aba;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0 0;
+        }
+        li {
+            background: #3a4541;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 500px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>سجل حسابك في الدسكورد</h1>
+
+    <h2>سجل في الاسفل⭣</h2>
+
+    
+    <h1>
+        <img src="C:\Users\admin\Desktop\دسكورد.jpg" alt="Logo" style="height: 50px;">
+    </h1>
+
+
+        <form id="playerForm">
+            <label for="playerName">اسم الاعب</label>
+            <input type="text" id="playerName" name="playerName" placeholder="ادخل اسمك هنا..." required>
+            <button type="submit">تسجيل</button>
+        </form>
+        <h2>قائمة اللاعبين:⭣</h2>
+        <ul id="playerList"></ul>
+    </div>
+
+    <script>
+        const form = document.getElementById('playerForm');
+        const playerList = document.getElementById('playerList');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const playerName = document.getElementById('playerName').value;
+
+            // إضافة الاسم إلى القائمة
+            const listItem = document.createElement('li');
+            listItem.textContent = playerName;
+            playerList.appendChild(listItem);
+
+            // إعادة تعيين الحقل
+            form.reset();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حقوق الطبع والنشر</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #00d4c2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: black; /* لون النص */
+        }
+        footer a {
+            color: #007bff; /* لون الرابط */
+            text-decoration: none; /* إزالة التسطير */
+        }
+        footer a:hover {
+            text-decoration: underline; /* تسطير عند التمرير */
+        }
+    </style>
+</head>
+<body>
+    <footer>
+        <p>&copy; 2024 جميع الحقوق محفوظه S3o6y</p>
+        <p>تواصل معي على Discord: <a href="https://discord.com/users/553173414249234432" target="_blank">s3o6y#</a></p>
+    </footer>
+</body>
+</html>
+
+
+
+
+
